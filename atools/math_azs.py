@@ -33,3 +33,11 @@ def mirror(xyz):
 
 def func_lin(x,m,b):
     return m*x + b
+
+def anint(x):
+    if x >= 0.5:
+        return 1.0
+    elif x < -0.5:
+        return -1.0
+    else:
+        return 0.0
