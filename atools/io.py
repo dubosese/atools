@@ -76,3 +76,43 @@ def write_lammps_data(filename,xyz,box,types=None,charges=None,mol_id=None,mass_
         out.write('\nDihedrals\n\n')
         for i,dihedral in enumerate(dihedrals):
             out.write('{:d}\t{:.0f}\t{:d}\t{:d}\t{:d}\t{:d}\n'.format(i+1,dihedral_types[i],dihedral[0],dihedral[1],dihedral[2],dihedral[3]))
+
+def read_topology(filename):
+    """
+    Currently supports the following directives:
+        bonds
+
+    Args:
+        filename (str): name of TOP file to read in
+    Returns:
+        top (dict):
+            'bonds': bonds (numpy.ndarray)
+    """
+    bonds = []
+    with open(filename, 'r') as f:
+        data_lines = f.readlines()
+
+    directives = re.compile(r"""
+        ((?P<bonds>\s*bonds))
+        """, re.VERBOSE)
+
+    i = 0
+    while i < len(data_lines):
+        match = directives.match(data_lines[i])
+        if match:
+            if match.group('bonds'):
+                data_lines.pop(i)
+                data_lines.pop(i)
+
+                while i < len(data_lines) and data_lines[i].strip():
+                    fields = map(int, data_lines.pop(i).split())
+                    bond = [fields[0], fields[1]]
+                    bonds.append(bond)
+            else:
+                i += 1
+        else:
+            i += 1
+
+    top = {'bonds': np.asarray(bonds)}
+
+    return top
