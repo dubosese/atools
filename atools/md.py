@@ -1,6 +1,6 @@
 import numpy as np
 from math import atan2, cos, sin
-from atools.math_azs import anint
+from atools.amath import anint
 
 class NeighborList(object):
 

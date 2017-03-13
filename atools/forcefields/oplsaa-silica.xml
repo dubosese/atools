@@ -1,0 +1,33 @@
+<ForceField>
+<AtomTypes>
+    <Type name="opls_1001" class="OS" element="O" mass="15.9994" def="[O][Si;%opls_1002]"/>
+    <Type name="opls_1002" class="SI" element="Si" mass="28.0855" def="[Si]"/>
+    <Type name="opls_1003" class="SI" element="Si" mass="28.0855" def="[Si;X4]([O])([O])([O])([C])" overrides="opls_1002"/>
+    <Type name="opls_1004" class="OS" element="O" mass="15.9994" def="[O;X2]([Si;%opls_1002])[H,Si;%opls_1003]" overrides="opls_154,opls_1001"/>
+    <Type name="opls_1005" class="HO" element="H" mass="1.00800" def="[H;X1](O[Si;%opls_1002])" overrides="opls_155"/>
+</AtomTypes>
+<HarmonicBondForce>
+    <Bond class1="SI" class2="OS" length="0.163" k="251040.0"/>
+    <Bond class1="SI" class2="OH" length="0.163" k="251040.0"/>
+    <Bond class1="SI" class2="CT" length="0.185" k="167360.0"/>
+</HarmonicBondForce>
+<HarmonicAngleForce>
+    <Angle class1="SI" class2="OS" class3="SI" angle="2.7053" k="397.48"/>
+    <Angle class1="SI" class2="OH" class3="SI" angle="2.7053" k="397.48"/>
+    <Angle class1="OS" class2="SI" class3="OS" angle="1.9111" k="397.48"/>
+    <Angle class1="OH" class2="SI" class3="OS" angle="1.9111" k="397.48"/>
+    <Angle class1="SI" class2="OH" class3="HO" angle="1.9111" k="397.48"/>
+    <Angle class1="SI" class2="CT" class3="CT" angle="2.0944" k="254.97296"/>
+    <Angle class1="SI" class2="CT" class3="HC" angle="1.9111" k="418.48"/>
+    <Angle class1="OH" class2="SI" class3="CT" angle="1.7453" k="502.18"/>
+    <Angle class1="OH" class2="SI" class3="OH" angle="1.9199" k="502.18"/>
+    <Angle class1="OS" class2="SI" class3="CT" angle="1.7453" k="502.18"/>
+</HarmonicAngleForce>
+<NonbondedForce coulomb14scale="1.0" lj14scale="1.0">
+    <Atom type="opls_1001" charge="-0.43" sigma="0.3" epsilon="0.71128"/>
+    <Atom type="opls_1002" charge="0.86" sigma="0.4" epsilon="0.4184"/>
+    <Atom type="opls_1003" charge="0.745" sigma="0.4" epsilon="0.4184"/>
+    <Atom type="opls_1004" charge="-0.215" sigma="0.3" epsilon="0.71128"/>
+    <Atom type="opls_1005" charge="0.215" sigma="0.0" epsilon="0.0"/>
+</NonbondedForce>
+</ForceField>
