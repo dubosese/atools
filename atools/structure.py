@@ -1,3 +1,20 @@
+from __future__ import division
+
+import numpy as np
+
+import mdtraj as md
+
+def calc_nematic_order(traj_filename, top_filename, output_filename):
+    first = md.load_frame(traj_filename, 0, top=top_filename)
+    atoms = list(first.top.atoms)
+
+    count = 0
+    chain_indices_bot = []
+    chain_indices_top = []
+    for i, atom in enumerate(atoms):
+        if atom.name == ""
+
+
 def identify_rigid_groups(monolayer, terminal_group=None, freeze_thickness=5):
     bounding_box = monolayer.boundingbox
     bot_of_box = bounding_box.mins[2]
