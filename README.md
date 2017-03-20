@@ -1,5 +1,5 @@
 <p align="center">
-  <b>A-Tools</b>
+  <h1 align="center">A-Tools</h1>
   <br>
   <img src="logo.jpg">
   <br>
