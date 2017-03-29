@@ -816,10 +816,11 @@
   <Type name="opls_1002" class="SI" element="Si" mass="28.0855" def="[Si]"/>
   <Type name="opls_1003" class="SI" element="Si" mass="28.0855" def="[Si;X4]([O])([O])([O])([C])" overrides="opls_1002"/>
   <Type name="opls_1004" class="CT" element="C" mass="12.01100" def="[C;X4]Si" desc="alkane CH2"/>
-  <Type name="opls_1005" class="OH" element="O" mass="15.9994" def="O(H)SiC" overrides="opls_154,opls_1001,opls_1007"/>
-  <Type name="opls_1006" class="HO" element="H" mass="1.00800" def="HOSiC" overrides="opls_155,opls_1008"/>
-  <Type name="opls_1007" class="OS" element="O" mass="15.9994" def="[O;X2]([Si;%opls_1002])[H,Si;%opls_1003]" overrides="opls_154,opls_1001"/>
-  <Type name="opls_1008" class="HO" element="H" mass="1.00800" def="[H;X1](O[Si;%opls_1002])" overrides="opls_155"/>
+  <Type name="opls_1005" class="OH" element="O" mass="15.9994" def="O(H)SiC" overrides="opls_154,opls_1001,opls_1008"/>
+  <Type name="opls_1006" class="HO" element="H" mass="1.00800" def="HOSiC" overrides="opls_155,opls_1009"/>
+  <Type name="opls_1007" class="OS" element="O" mass="15.9994" def="[O;X2]([Si;%opls_1002])[Si;%opls_1003]" overrides="opls_1001"/>
+  <Type name="opls_1008" class="OS" element="O" mass="15.9994" def="[O;X2]([Si;%opls_1002])H" overrides="opls_154,opls_1001"/>
+  <Type name="opls_1009" class="HO" element="H" mass="1.00800" def="[H;X1](O[Si;%opls_1002])" overrides="opls_155"/>
  </AtomTypes>
  <HarmonicBondForce>
   <Bond class1="OW" class2="HW" length="0.09572" k="502080.0"/>
@@ -3941,6 +3942,7 @@
   <Atom type="opls_1005" charge="-0.683" sigma="0.312" epsilon="0.71128"/>
   <Atom type="opls_1006" charge="0.418" sigma="1.0" epsilon="0.0"/>
   <Atom type="opls_1007" charge="-0.215" sigma="0.3" epsilon="0.71128"/>
-  <Atom type="opls_1008" charge="0.215" sigma="0.0" epsilon="0.0"/>
+  <Atom type="opls_1008" charge="-0.215" sigma="0.3" epsilon="0.71128"/>
+  <Atom type="opls_1009" charge="0.215" sigma="0.0" epsilon="0.0"/>
  </NonbondedForce>
 </ForceField>

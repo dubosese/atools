@@ -10,12 +10,11 @@ class Nitrophenyl(mb.Compound):
         nitro = Nitro()
 
         phenyl.remove(phenyl[6])
-        phenyl.add(mb.Port(anchor=phenyl[5]), 'up')
-        mb.translate(phenyl['up'], [0, 0.07, 0])
+        phenyl.add(mb.Port(anchor=phenyl[5], separation=0.07), 'up')
 
         self.add(phenyl, 'phenyl')
         self.add(nitro, 'nitro')
-        mb.equivalence_transform(self['nitro'], self['nitro']['down'], self['phenyl']['up'])
+        mb.force_overlap(self['nitro'], self['nitro']['down'], self['phenyl']['up'])
 
         self.add(phenyl['down'], 'down', containment=False)
 

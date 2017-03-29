@@ -10,12 +10,12 @@ class Biphenyl(mb.Compound):
         phenyl2 = Phenyl()
 
         phenyl1.remove(phenyl1[6])
-        phenyl1.add(mb.Port(anchor=phenyl1[5]), 'up')
-        mb.translate(phenyl1['up'], [0, 0.07, 0])
+        phenyl1.add(mb.Port(anchor=phenyl1[5], separation=0.07), 'up')
 
         self.add(phenyl1, 'phenyl1')
         self.add(phenyl2, 'phenyl2')
-        mb.equivalence_transform(self['phenyl2'], self['phenyl2']['down'], self['phenyl1']['up'])
+        mb.force_overlap(self['phenyl2'], self['phenyl2']['down'], 
+                         self['phenyl1']['up'])
 
         self.add(phenyl1['down'], 'down', containment=False)
 

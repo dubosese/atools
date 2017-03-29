@@ -17,6 +17,7 @@ class SilicaInterface(mb.SilicaInterface):
 
             mb.load(os.path.join(cache_dir, filename), compound=self)
             self._add_ports()
+            self.periodicity = [5. * tile_x, 5. * tile_y, 0]
 
         else:
             from mbuild.lib.bulk_materials import AmorphousSilica

@@ -1,19 +1,40 @@
-import networkx as nx
+from __future__ import division
 
-def find_angles(bond_graph):
-    angles = []
-    dihedrals = []
-    for i,atom in enumerate(bond_graph.nodes()):
-        for j,atom2 in enumerate(bond_graph.nodes()):
-            if i < j:
-                paths = nx.all_simple_paths(bond_graph,source=atom,target=atom2,cutoff=3)
-                for path in paths:
-                    if len(path) == 3:
-                        angles.append(path)
-                    elif len(path) == 4:
-                        dihedrals.append(path)
+import numpy as np
 
-    return angles,dihedrals
+import mdtraj as md
+
+def calc_nematic_order(traj_filename, top_filename, output_filename,
+                       n_chains):
+    """Calculate the nematic order of a monolayer
+
+    Returns the average nematic order at each frame of a trajectory
+    between the top and bottom monolayers in a dual monolayer system.
+
+    Notes
+    -----
+    Assumes a unique chain prototype.
+    Assumes identical top and bottom monolayers.
+
+    """
+    topology = md.load(top_filename).topology
+    atoms = np.array(list(topology.atoms))
+    atom_names = [atom.name for atom in atoms]
+    monolayer_begins = atom_names.index('C')
+    half_atoms = int(len(atoms)/2)
+    backfill_sites = int(atom_names.count('OS')/2 - n_chains)
+    bottom_monolayer = [atom.index for atom in atoms[monolayer_begins:half_atoms - backfill_sites]]
+    top_monolayer = [atom.index for atom in atoms[monolayer_begins + half_atoms:-backfill_sites]]
+    bottom_chains = np.array_split(bottom_monolayer, n_chains)
+    top_chains = np.array_split(top_monolayer, n_chains)
+    bottom_chains_list = [chain.tolist() for chain in bottom_chains]
+    top_chains_list = [chain.tolist() for chain in top_chains]
+
+    traj = md.load(traj_filename, top=top_filename)
+    S2_bottom = md.compute_nematic_order(traj, indices=bottom_chains_list)
+    S2_top = md.compute_nematic_order(traj, indices=top_chains_list)
+    S2_mean = np.mean([S2_bottom, S2_top], axis=0)
+    np.savetxt(output_filename, np.column_stack((traj.time, S2_mean)))
 
 def identify_rigid_groups(monolayer, terminal_group=None, freeze_thickness=5):
     bounding_box = monolayer.boundingbox
@@ -26,7 +47,7 @@ def identify_rigid_groups(monolayer, terminal_group=None, freeze_thickness=5):
     if terminal_group:
         nonterminal = []
         terminal = []
-    for i, particle in monolayer.particles():
+    for i, particle in enumerate(monolayer.particles()):
         full_system.append(i + 1)
         if particle.pos[2] < bot_of_box + freeze_thickness:
             bot_rigid.append(i + 1)
@@ -45,11 +66,3 @@ def identify_rigid_groups(monolayer, terminal_group=None, freeze_thickness=5):
         rigid_groups['nonterminal'] = nonterminal
         rigid_groups['terminal'] = terminal
     return rigid_groups
-
-if __name__ == '__main__':
-    from mbuild.examples.alkane.alkane import Alkane
-
-    alkane = Alkane(n=3)
-    G = alkane.bond_graph
-    angles,dihedrals = find_angles(G)
-    print len(angles),len(dihedrals)
