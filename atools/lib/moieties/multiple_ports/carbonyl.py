@@ -10,11 +10,11 @@ class Carbonyl(mb.Compound):
         self.translate(-self[0].pos)  # Move carbon to origin.
 
         self.add(mb.Port(anchor=self[0],
-                         orientation=[0.866, -0.5, 0],
+                         orientation=[1, 0, 0],
                          separation=0.075), 'right')
 
         self.add(mb.Port(anchor=self[0],
-                         orientation=[-0.866, -0.5, 0],
+                         orientation=[-1, 0, 0],
                          separation=0.075), 'left')
 
 if __name__ == '__main__':

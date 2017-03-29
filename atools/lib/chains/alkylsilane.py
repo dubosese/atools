@@ -28,5 +28,5 @@ class Alkylsilane(mb.Compound):
         self.add(silane['down'], 'down', containment=False)
 
 if __name__ == "__main__":
-    chain = Alkylsilane(chain_length=8, terminal_group='phenyl')
+    chain = Alkylsilane(chain_length=8, terminal_group='cyclopropyl')
     chain.save('chain.mol2', overwrite=True)
