@@ -1,3 +1,6 @@
+import os
+from pkg_resources import resource_filename
+
 import mbuild as mb
 
 
@@ -11,7 +14,7 @@ class SurfaceMonolayer(mb.Compound):
             pattern = mb.Random2DPattern(n_chains, seed=seed)
         elif surface.name == 'SilicaTip':
             pass
-        elif surface.name == 'SilicaAsperity'
+        elif surface.name == 'SilicaAsperity':
             pass
         
         monolayer = mb.Monolayer(surface=surface, chains=chains, pattern=pattern,
@@ -35,18 +38,21 @@ if __name__ == "__main__":
 
     seed = 12345
 
-    '''
     planar_surface = SilicaInterface(seed=seed)
     planar_monolayer = SurfaceMonolayer(surface=planar_surface, 
         chains=[chain_a, chain_b], n_chains=100, seed=seed, fractions=fractions,
         backfill=hydrogen)
-    planar_monolayer.save('planar.mol2', overwrite=True)
-    '''
+    forcefield_dir = resource_filename('atools', 'forcefields')
+    planar_monolayer.save('planar.top',
+        forcefield_files=os.path.join(forcefield_dir, 'oplsaa-silica.xml'), 
+        overwrite=True)
 
+    '''
     tip = SilicaTip(tip_radius=2.0, seed=seed)
     tip_monolayer = SurfaceMonolayer(surface=tip, chains=[chain_a, chain_b], 
         n_chains=50, seed=seed, fractions=fractions, backfill=hydrogen)
     tip_monolayer.save('tip.mol2', overwrite=True)
+    '''
 
     '''
     asperity = SilicaAsperity(tile_x=3, tile_y=3, asperity_radius=2.0, seed=seed)
