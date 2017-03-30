@@ -9,7 +9,7 @@ class DualSurface(mb.Compound):
     """ A recipe for creating a system with two opposing surfaces.
     """
 
-    def __init__(self, bottom, top=None, separation=0.8):
+    def __init__(self, bottom, top=None, separation=0.8, shift=False):
         super(DualSurface, self).__init__()
 
         if top is None:
@@ -23,6 +23,10 @@ class DualSurface(mb.Compound):
         bot_of_top = top_box.mins[2]
 
         top.translate([0, 0, top_of_bot - bot_of_top + separation])
+        if shift:
+            top.translate([bottom.pos[0] - top.pos[0],
+                           bottom.pos[1] - top.pos[1],
+                           0])
 
         self.add(bottom)
         self.add(top)
@@ -30,23 +34,23 @@ class DualSurface(mb.Compound):
 if __name__ == "__main__":
     from atools.lib.chains import Alkylsilane
     from atools.recipes.silica_interface import SilicaInterface
+    from atools.recipes.silica_tip import SilicaTip
     from atools.recipes.surface_monolayer import SurfaceMonolayer
 
     from mbuild.lib.atoms import H
 
-    fractions = [0.75, 0.25]
-
-    chain_a = Alkylsilane(chain_length=6, terminal_group='amino')
-    chain_b = Alkylsilane(chain_length=18, terminal_group='carboxyl')
+    chain = Alkylsilane(chain_length=12, terminal_group='methyl')
     hydrogen = H()
 
     seed = 12345
 
-    planar_surface = SilicaInterface(seed=seed)
+    planar_surface = SilicaInterface(seed=seed, tile_x=2, tile_y=3)
     planar_monolayer = SurfaceMonolayer(surface=planar_surface,
-        chains=[chain_a, chain_b], n_chains=100, seed=seed, fractions=fractions,
-        backfill=hydrogen)
-    dual_monolayer = DualSurface(planar_monolayer)
+        chains=chain, n_chains=100, seed=seed, backfill=hydrogen)
+    top_surface = SilicaTip(tip_radius=2.0, seed=seed)
+    tip = SurfaceMonolayer(surface=top_surface, chains=None, n_chains=0,
+        seed=seed, backfill=hydrogen)
+    dual_monolayer = DualSurface(planar_monolayer, top=tip, shift=True)
     forcefield_dir = resource_filename('atools', 'forcefields')
     box = dual_monolayer.boundingbox
     dual_monolayer.periodicity += np.array([0, 0, 5. * box.lengths[2]])
