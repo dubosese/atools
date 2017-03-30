@@ -3,6 +3,7 @@ from pkg_resources import resource_filename
 
 import mbuild as mb
 
+from atools.patterns import RandomHemispherePattern
 
 class SurfaceMonolayer(mb.Compound):
 
@@ -13,12 +14,20 @@ class SurfaceMonolayer(mb.Compound):
         if surface.name == 'SilicaInterface':
             pattern = mb.Random2DPattern(n_chains, seed=seed)
         elif surface.name == 'SilicaTip':
-            pass
+            shift = 0.25
+            surface.translate_to([0, 0, 0])
+            surface.translate([0, 0, -1 * min(surface.xyz[:,2]) - shift])
+            radius = max(surface.xyz[:,2]) - min(surface.xyz[:,2])
+            pattern = RandomHemispherePattern(n=n_chains, seed=seed)
+            pattern.scale(radius)
         elif surface.name == 'SilicaAsperity':
             pass
         
-        monolayer = mb.Monolayer(surface=surface, chains=chains, pattern=pattern,
-                                 fractions=fractions, backfill=backfill)
+        if chains and n_chains > 0:
+            monolayer = mb.Monolayer(surface=surface, chains=chains, pattern=pattern,
+                                     fractions=fractions, backfill=backfill)
+        else:
+            monolayer = mb.Monolayer(surface=surface, chains=backfill, guest_port_name='up')
 
         self.add(monolayer)
 
@@ -38,6 +47,7 @@ if __name__ == "__main__":
 
     seed = 12345
 
+    '''
     planar_surface = SilicaInterface(seed=seed)
     planar_monolayer = SurfaceMonolayer(surface=planar_surface, 
         chains=[chain_a, chain_b], n_chains=100, seed=seed, fractions=fractions,
@@ -49,13 +59,12 @@ if __name__ == "__main__":
     planar_monolayer.save('planar.top', 
         forcefield_files=os.path.join(forcefield_dir, 'oplsaa-silica.xml'),
         overwrite=True)
-
     '''
+
     tip = SilicaTip(tip_radius=2.0, seed=seed)
     tip_monolayer = SurfaceMonolayer(surface=tip, chains=[chain_a, chain_b], 
-        n_chains=50, seed=seed, fractions=fractions, backfill=hydrogen)
+        n_chains=50, seed=2, fractions=fractions, backfill=hydrogen)
     tip_monolayer.save('tip.mol2', overwrite=True)
-    '''
 
     '''
     asperity = SilicaAsperity(tile_x=3, tile_y=3, asperity_radius=2.0, seed=seed)
