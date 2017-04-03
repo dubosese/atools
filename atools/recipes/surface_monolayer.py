@@ -4,6 +4,7 @@ from pkg_resources import resource_filename
 import mbuild as mb
 
 from atools.patterns import RandomHemispherePattern
+from atools.recipes import Monolayer
 
 class SurfaceMonolayer(mb.Compound):
 
@@ -24,10 +25,10 @@ class SurfaceMonolayer(mb.Compound):
             pass
         
         if chains and n_chains > 0:
-            monolayer = mb.Monolayer(surface=surface, chains=chains, pattern=pattern,
-                                     fractions=fractions, backfill=backfill)
+            monolayer = Monolayer(surface=surface, chains=chains, pattern=pattern,
+                                  fractions=fractions, backfill=backfill)
         else:
-            monolayer = mb.Monolayer(surface=surface, chains=backfill, guest_port_name='up')
+            monolayer = Monolayer(surface=surface, chains=backfill, guest_port_name='up')
 
         self.add(monolayer)
 
@@ -39,32 +40,29 @@ if __name__ == "__main__":
 
     from mbuild.lib.atoms import H
 
-    fractions = [0.75, 0.25]
-
-    chain_a = Alkylsilane(chain_length=6, terminal_group='amino')
-    chain_b = Alkylsilane(chain_length=18, terminal_group='carboxyl')
     hydrogen = H()
-
     seed = 12345
 
-    '''
-    planar_surface = SilicaInterface(seed=seed)
-    planar_monolayer = SurfaceMonolayer(surface=planar_surface, 
-        chains=[chain_a, chain_b], n_chains=100, seed=seed, fractions=fractions,
-        backfill=hydrogen)
-    forcefield_dir = resource_filename('atools', 'forcefields')
-    planar_monolayer.save('planar.gro', 
-        forcefield_files=os.path.join(forcefield_dir, 'oplsaa-silica.xml'),
-        overwrite=True)
-    planar_monolayer.save('planar.top', 
-        forcefield_files=os.path.join(forcefield_dir, 'oplsaa-silica.xml'),
-        overwrite=True)
-    '''
+    terminal_groups = ['nitrophenyl', 'perfluoromethyl', 'phenyl', 'pyrrole']
 
+    for terminal_group in terminal_groups:
+        chain = Alkylsilane(chain_length=6, terminal_group=terminal_group)
+
+        planar_surface = SilicaInterface(seed=seed)
+        planar_monolayer = SurfaceMonolayer(surface=planar_surface, 
+            chains=chain, n_chains=100, seed=seed, backfill=hydrogen)
+        forcefield_dir = resource_filename('atools', 'forcefields')
+        planar_monolayer.save('planar-{}.gro'.format(terminal_group), overwrite=True)
+        planar_monolayer.save('planar-{}.top'.format(terminal_group), 
+            forcefield_files=os.path.join(forcefield_dir, 'oplsaa-silica.xml'),
+            overwrite=True)
+
+    '''
     tip = SilicaTip(tip_radius=2.0, seed=seed)
     tip_monolayer = SurfaceMonolayer(surface=tip, chains=[chain_a, chain_b], 
         n_chains=50, seed=2, fractions=fractions, backfill=hydrogen)
     tip_monolayer.save('tip.mol2', overwrite=True)
+    '''
 
     '''
     asperity = SilicaAsperity(tile_x=3, tile_y=3, asperity_radius=2.0, seed=seed)

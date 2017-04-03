@@ -8,7 +8,7 @@ from atools.lib.chains.alkane import Alkane
 
 class Alkylsilane(mb.Compound):
     """A functionalized alkylsilane chain. """
-    def __init__(self, chain_length, hbonding_group, n_groups, locations):
+    def __init__(self, chain_length, hbonding_group, locations):
         super(Alkylsilane, self).__init__()
 
         hmodule = __import__('atools.lib.moieties.multiple_ports.'+hbonding_group)
@@ -39,13 +39,15 @@ class Alkylsilane(mb.Compound):
             mb.force_overlap(self['hgroup{}'.format(i+1)], 
                              self['hgroup{}'.format(i+1)]['down'],
                              current_segment['up'])
+            current_segment = hgroup_clone
             length = loc - locations[i] - 1 - c_remove
-            segment = Alkane(length, cap_front=False, cap_end=False)
-            self.add(segment, 'internal_chain{}'.format(i+1))
-            current_segment = segment
-            mb.force_overlap(self['internal_chain{}'.format(i+1)],
-                             self['internal_chain{}'.format(i+1)]['down'],
-                             self['hgroup{}'.format(i+1)]['up'])
+            if length > 0:
+                segment = Alkane(length, cap_front=False, cap_end=False)
+                self.add(segment, 'internal_chain{}'.format(i+1))
+                current_segment = segment
+                mb.force_overlap(self['internal_chain{}'.format(i+1)],
+                                 self['internal_chain{}'.format(i+1)]['down'],
+                                 self['hgroup{}'.format(i+1)]['up'])
 
         self.add(hgroup, 'hgroup')
         mb.force_overlap(self['hgroup'], 
@@ -59,6 +61,6 @@ class Alkylsilane(mb.Compound):
                          self['hgroup']['up'])
 
 if __name__ == "__main__":
-    chain = Alkylsilane(chain_length=18, hbonding_group='methylene',
-                        n_groups=2, locations=[3,6,10])
+    chain = Alkylsilane(chain_length=18, hbonding_group='hemiacetal',
+                        locations=[7,9])
     chain.save('chain-hbond.mol2', overwrite=True)

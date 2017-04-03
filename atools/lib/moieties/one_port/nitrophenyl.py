@@ -1,5 +1,8 @@
 import mbuild as mb
 
+from atools.lib.moieties.one_port.nitro import Nitro
+from atools.lib.moieties.one_port.phenyl import Phenyl
+
 
 class Nitrophenyl(mb.Compound):
     """ A nitrophenyl group. """
