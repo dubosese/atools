@@ -2,6 +2,7 @@ from .acetyl import Acetyl
 from .amino import Amino
 from .biphenyl import Biphenyl
 from .carboxyl import Carboxyl
+from .ch3 import CH3
 from .cyano import Cyano
 from .cyclopropyl import Cyclopropyl
 from .ethylene import Ethylene

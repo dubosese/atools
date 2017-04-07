@@ -2,7 +2,7 @@ from warnings import warn
 
 import mbuild as mb
 from mbuild.lib.moieties import CH2
-from mbuild.lib.moieties import CH3
+from atools.lib.moieties.one_port import CH3
 
 
 class Alkane(mb.Compound):
@@ -37,23 +37,23 @@ class Alkane(mb.Compound):
                 chain = mb.Polymer(CH2(), n=n, port_labels=('up', 'down'))
                 self.add(chain, 'chain')
                 if cap_end:
-                    mb.force_overlap(self['methyl_end'], self['methyl_end']['up'],
+                    mb.force_overlap(self['methyl_end'], self['methyl_end']['down'],
                                      self['chain']['down'])
                 else:
                     self.add(chain['down'], 'down', containment=False)
                 if cap_front:
                     mb.force_overlap(self['chain'], self['chain']['up'],
-                                     self['methyl_front']['up'])
+                                     self['methyl_front']['down'])
                 else:
                     self.add(chain['up'], 'up', containment=False)
             except ValueError:
-                mb.force_overlap(self['methyl_end'], self['methyl_end']['up'],
-                                 self['methyl_front']['up'])
+                mb.force_overlap(self['methyl_end'], self['methyl_end']['down'],
+                                 self['methyl_front']['down'])
         else:
             if cap_end or cap_front:
                 ch3 = CH3()
                 self.add(ch3, 'methyl')
-                self.add(ch3['up'], 'up', containment=False)
+                self.add(ch3['down'], 'down', containment=False)
             else:
                 ch2 = CH2()
                 self.add(ch2, 'methylene')

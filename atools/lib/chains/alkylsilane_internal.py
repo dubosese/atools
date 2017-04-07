@@ -1,5 +1,6 @@
 import mbuild as mb
 
+from mbuild.lib.atoms import H
 from mbuild.lib.moieties import Silane
 
 import atools
@@ -8,29 +9,39 @@ from atools.lib.chains.alkane import Alkane
 
 class Alkylsilane(mb.Compound):
     """A functionalized alkylsilane chain. """
-    def __init__(self, chain_length, hbonding_group, locations):
+    def __init__(self, chain_length, internal_group, locations):
         super(Alkylsilane, self).__init__()
 
-        hmodule = __import__('atools.lib.moieties.multiple_ports.'+hbonding_group)
-        hclass_ = getattr(hmodule.lib.moieties.multiple_ports, hbonding_group.title())
+        hmodule = __import__('atools.lib.moieties.multiple_ports.'+internal_group)
+        hclass_ = getattr(hmodule.lib.moieties.multiple_ports, internal_group.title())
         hgroup = hclass_()
 
         # Determine alkane segments
         if isinstance(locations, int):
             locations = [locations]
+        locations.sort()
 
-        first_length = locations[0]
-        first_segment = Alkane(first_length, cap_front=False, cap_end=False)
-        self.add(first_segment, 'bottom_chain')
         silane = Silane()
         self.add(silane, 'silane')
-        mb.force_overlap(self['silane'], self['silane']['up'], 
-                         self['bottom_chain']['down'])
         self.add(silane['down'], 'down', containment=False)
-        current_segment = first_segment
+
+        if 0 in locations:
+            '''
+            self.add(hgroup, 'hgroup')
+            mb.force_overlap(self['silane'], self['silane']['up'], 
+                             self['hgroup']['down'])
+            '''
+            current_segment = silane
+        else:
+            first_length = locations[0]
+            first_segment = Alkane(first_length, cap_front=False, cap_end=False)
+            self.add(first_segment, 'bottom_chain')
+            mb.force_overlap(self['silane'], self['silane']['up'], 
+                             self['bottom_chain']['down'])
+            current_segment = first_segment
 
         c_remove = 0
-        if hbonding_group in ['amide', 'hemiacetal']:
+        if internal_group in ['amide', 'hemiacetal']:
             c_remove += 1
 
         for i, loc in enumerate(locations[1:]):
@@ -55,12 +66,18 @@ class Alkylsilane(mb.Compound):
                          current_segment['up'])
 
         last_length = chain_length - locations[-1] - 1 - c_remove
-        last_segment = Alkane(last_length, cap_front=True, cap_end=False)
-        self.add(last_segment, 'top_chain')
-        mb.force_overlap(self['top_chain'], self['top_chain']['down'],
-                         self['hgroup']['up'])
+        if last_length:
+            last_segment = Alkane(last_length, cap_front=True, cap_end=False)
+            self.add(last_segment, 'top_chain')
+            mb.force_overlap(self['top_chain'], self['top_chain']['down'],
+                             self['hgroup']['up'])
+        else:
+            hydrogen = H()
+            self.add(hydrogen, 'H-cap')
+            mb.force_overlap(self['H-cap'], self['H-cap']['up'],
+                             self['hgroup']['up'])
 
 if __name__ == "__main__":
-    chain = Alkylsilane(chain_length=18, hbonding_group='hemiacetal',
-                        locations=[7,9])
+    chain = Alkylsilane(chain_length=18, internal_group='phenyl',
+                        locations=17)
     chain.save('chain-hbond.mol2', overwrite=True)
