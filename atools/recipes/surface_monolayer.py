@@ -9,7 +9,7 @@ from atools.recipes import Monolayer
 class SurfaceMonolayer(mb.Compound):
 
     def __init__(self, surface, chains, n_chains, seed, fractions=None,
-                 backfill=None):
+                 backfill=None, **kwargs):
         super(SurfaceMonolayer, self).__init__()
 
         if surface.name == 'SilicaInterface':
@@ -26,9 +26,9 @@ class SurfaceMonolayer(mb.Compound):
         
         if chains and n_chains > 0:
             monolayer = Monolayer(surface=surface, chains=chains, pattern=pattern,
-                                  fractions=fractions, backfill=backfill)
+                                  fractions=fractions, backfill=backfill, **kwargs)
         else:
-            monolayer = Monolayer(surface=surface, chains=backfill, guest_port_name='up')
+            monolayer = Monolayer(surface=surface, chains=backfill, guest_port_name='up', **kwargs)
 
         self.add(monolayer)
 
