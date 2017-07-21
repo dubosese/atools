@@ -819,7 +819,7 @@
   <Type name="opls_1005" class="OH" element="O" mass="15.9994" def="O(H)SiC" overrides="opls_154,opls_1001,opls_1008"/>
   <Type name="opls_1006" class="HO" element="H" mass="1.00800" def="HOSiC" overrides="opls_155,opls_1009"/>
   <Type name="opls_1007" class="OS" element="O" mass="15.9994" def="[O;X2]([Si;%opls_1002])[Si;%opls_1003]" overrides="opls_1001"/>
-  <Type name="opls_1008" class="OS" element="O" mass="15.9994" def="[O;X2]([Si;%opls_1002])H" overrides="opls_154,opls_1001"/>
+  <Type name="opls_1008" class="OH" element="O" mass="15.9994" def="[O;X2]([Si;%opls_1002])H" overrides="opls_154,opls_1001"/>
   <Type name="opls_1009" class="HO" element="H" mass="1.00800" def="[H;X1](O[Si;%opls_1002])" overrides="opls_155"/>
  </AtomTypes>
  <HarmonicBondForce>
@@ -1123,8 +1123,8 @@
   <Bond class1="C_2" class2="CW" length="0.149" k="334720.0"/>
   <Bond class1="C_3" class2="CW" length="0.149" k="334720.0"/>
   <Bond class1="O2" class2="S" length="0.153" k="400000.0"/>
-  <Bond class1="SI" class2="OS" length="0.163" k="251040.0"/>
-  <Bond class1="SI" class2="OH" length="0.163" k="251040.0"/>
+  <Bond class1="SI" class2="OS" length="0.165" k="251040.0"/>
+  <Bond class1="SI" class2="OH" length="0.165" k="251040.0"/>
   <Bond class1="SI" class2="CT" length="0.185" k="167360.0"/>
  </HarmonicBondForce>
  <HarmonicAngleForce>
@@ -2058,16 +2058,16 @@
   <Angle class1="CA" class2="S" class3="CT" angle="1.81863308058" k="518.816"/>
   <Angle class1="OH" class2="C" class3="N" angle="2.01463355558" k="292.88"/>
   <Angle class1="O2" class2="S" class3="CT" angle="1.86750229963" k="400.0"/>
-  <Angle class1="SI" class2="OS" class3="SI" angle="2.7053" k="397.48"/>
-  <Angle class1="SI" class2="OH" class3="SI" angle="2.7053" k="397.48"/>
-  <Angle class1="OS" class2="SI" class3="OS" angle="1.9111" k="397.48"/>
-  <Angle class1="OH" class2="SI" class3="OS" angle="1.9111" k="397.48"/>
-  <Angle class1="SI" class2="OH" class3="HO" angle="1.9111" k="397.48"/>
+  <Angle class1="SI" class2="OS" class3="SI" angle="2.530727" k="167.36"/>
+  <Angle class1="SI" class2="OH" class3="SI" angle="2.530727" k="167.36"/>
+  <Angle class1="OS" class2="SI" class3="OS" angle="1.919862" k="502.08"/>
+  <Angle class1="OH" class2="SI" class3="OS" angle="1.919862" k="502.08"/>
+  <Angle class1="SI" class2="OH" class3="HO" angle="2.144800" k="198.96"/>
   <Angle class1="SI" class2="CT" class3="CT" angle="2.0944" k="254.97296"/>
-  <Angle class1="SI" class2="CT" class3="HC" angle="1.9111" k="418.48"/>
-  <Angle class1="OH" class2="SI" class3="CT" angle="1.7453" k="502.18"/>
-  <Angle class1="OH" class2="SI" class3="OH" angle="1.9199" k="502.18"/>
-  <Angle class1="OS" class2="SI" class3="CT" angle="1.7453" k="502.18"/>
+  <Angle class1="SI" class2="CT" class3="HC" angle="1.932079" k="313.80"/>
+  <Angle class1="OH" class2="SI" class3="CT" angle="1.7453" k="502.08"/>
+  <Angle class1="OH" class2="SI" class3="OH" angle="1.919862" k="502.08"/>
+  <Angle class1="OS" class2="SI" class3="CT" angle="1.7453" k="502.08"/>
  </HarmonicAngleForce>
  <RBTorsionForce>
   <Proper class1="Br" class2="C" class3="CB" class4="CT" c0="0.0" c1="0.0" c2="0.0" c3="0.0" c4="0.0" c5="0.0"/>
@@ -3264,7 +3264,6 @@
   <Atom type="opls_143" charge="-0.23" sigma="0.355" epsilon="0.317984"/>
   <Atom type="opls_144" charge="0.115" sigma="0.242" epsilon="0.12552"/>
   <Atom type="opls_145" charge="-0.115" sigma="0.355" epsilon="0.29288"/>
-  <Atom type="opls_145B" charge="-0.115" sigma="0.355" epsilon="0.29288"/>
   <Atom type="opls_146" charge="0.115" sigma="0.242" epsilon="0.12552"/>
   <Atom type="opls_147" charge="0.0" sigma="0.355" epsilon="0.29288"/>
   <Atom type="opls_148" charge="-0.065" sigma="0.35" epsilon="0.276144"/>
