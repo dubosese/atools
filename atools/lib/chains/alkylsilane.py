@@ -1,14 +1,27 @@
 import mbuild as mb
-
 from mbuild.examples.alkane.alkane import Alkane
 from mbuild.lib.moieties import Silane
 
 import atools
-#from terminal_groups import *
 
 
 class Alkylsilane(mb.Compound):
-    """A functionalized alkylsilane chain. """
+    """A terminal-functionalized alkylsilane chain.
+
+    An alkylsilane chain featuring a user-specified functional group at one
+    terminus and a silane group (featuring an open port to attach to a surface)
+    at the other terminus.
+
+    Parameters
+    ----------
+    chain_length : int
+        Length of the chain (number of carbons)
+    terminal_group : str
+        Functional group to attach to the chain terminus. Valid options are:
+        'acetyl', 'amino', 'carboxyl', 'cyano', 'cyclopropyl', 'ethylene',
+        'fluorophenyl', 'hydroxyl', 'isopropyl', 'methoxy', 'methyl', 'nitro',
+        'nitrophenyl', 'perfluoromethyl', 'phenyl', or 'pyrrole'
+    """
     def __init__(self, chain_length, terminal_group):
         super(Alkylsilane, self).__init__()
 
