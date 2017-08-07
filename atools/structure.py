@@ -6,7 +6,7 @@ import mdtraj as md
 from mdtraj.geometry.order import _compute_director
 
 def calc_nematic_order(traj_filename, top_filename, output_filename,
-                       n_chains):
+                       n_chains, average=True):
     """Calculate the nematic order of a monolayer
 
     Returns the average nematic order at each frame of a trajectory
@@ -34,8 +34,16 @@ def calc_nematic_order(traj_filename, top_filename, output_filename,
     traj = md.load(traj_filename, top=top_filename)
     S2_bottom = md.compute_nematic_order(traj, indices=bottom_chains_list)
     S2_top = md.compute_nematic_order(traj, indices=top_chains_list)
-    S2_mean = np.mean([S2_bottom, S2_top], axis=0)
-    np.savetxt(output_filename, np.column_stack((traj.time, S2_mean)))
+    if average:
+        S2_mean = np.mean([S2_bottom, S2_top], axis=0)
+        np.savetxt(output_filename, np.column_stack((traj.time, S2_mean)))
+    else:
+        bottom_filename = output_filename.split('.')[0] + '-bottom.' + \
+            output_filename.split('.')[1]
+        np.savetxt(bottom_filename, np.column_stack((traj.time, S2_bottom)))
+        top_filename = output_filename.split('.')[0] + '-top.' + \
+            output_filename.split('.')[1]
+        np.savetxt(top_filename, np.column_stack((traj.time, S2_top)))
 
 def _tilt_angle(v1, v2):
     cosang = np.dot(v1, v2)
