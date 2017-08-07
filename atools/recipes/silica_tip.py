@@ -185,5 +185,5 @@ class SilicaTip(mb.Compound):
             self.remove(O1)
 
 if __name__ == "__main__":
-    from mbuild.lib.bulk_materials import AmorphousSilica
-    tip = SilicaTip(bulk_silica=AmorphousSilica(), tip_radius=2.0)
+    tip = SilicaTip(tip_radius=2.0)
+    tip.save('tip.mol2')

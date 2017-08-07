@@ -12,7 +12,7 @@ class SurfaceMonolayer(mb.Compound):
                  backfill=None, **kwargs):
         super(SurfaceMonolayer, self).__init__()
 
-        if surface.name == 'SilicaInterface':
+        if surface.name == 'SilicaInterface' and n_chains > 0:
             pattern = mb.Random2DPattern(n_chains, seed=seed)
         elif surface.name == 'SilicaTip':
             shift = 0.25
@@ -23,6 +23,8 @@ class SurfaceMonolayer(mb.Compound):
             pattern.scale(radius)
         elif surface.name == 'SilicaAsperity':
             pass
+        else:
+            pattern = mb.Random2DPattern(n_chains, seed=seed)
         
         if chains and n_chains > 0:
             monolayer = Monolayer(surface=surface, chains=chains, pattern=pattern,
