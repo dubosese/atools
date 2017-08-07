@@ -812,13 +812,13 @@
   <Type name="MW" class="MW" mass="0.0"/>
   <Type name="HW_tip4pew" class="HW_tip4pew" element="H" mass="1.008"/>
   <Type name="OW_tip4pew" class="OW_tip4pew" element="O" mass="16.0"/>
-  <Type name="opls_1001" class="OS" element="O" mass="15.9994" def="[O][Si;%opls_1002]"/>
+  <Type name="opls_1001" class="OG" element="O" mass="15.9994" def="[O][Si;%opls_1002]"/>
   <Type name="opls_1002" class="SI" element="Si" mass="28.0855" def="[Si]"/>
   <Type name="opls_1003" class="SI" element="Si" mass="28.0855" def="[Si;X4]([O])([O])([O])([C])" overrides="opls_1002"/>
   <Type name="opls_1004" class="CT" element="C" mass="12.01100" def="[C;X4]Si" desc="alkane CH2"/>
   <Type name="opls_1005" class="OH" element="O" mass="15.9994" def="O(H)SiC" overrides="opls_154,opls_1001,opls_1008"/>
   <Type name="opls_1006" class="HO" element="H" mass="1.00800" def="HOSiC" overrides="opls_155,opls_1009"/>
-  <Type name="opls_1007" class="OS" element="O" mass="15.9994" def="[O;X2]([Si;%opls_1002])[Si;%opls_1003]" overrides="opls_1001"/>
+  <Type name="opls_1007" class="OG" element="O" mass="15.9994" def="[O;X2]([Si;%opls_1002])[Si;%opls_1003]" overrides="opls_1001"/>
   <Type name="opls_1008" class="OH" element="O" mass="15.9994" def="[O;X2]([Si;%opls_1002])H" overrides="opls_154,opls_1001"/>
   <Type name="opls_1009" class="HO" element="H" mass="1.00800" def="[H;X1](O[Si;%opls_1002])" overrides="opls_155"/>
  </AtomTypes>
@@ -993,7 +993,7 @@
   <Bond class1="HC" class2="C" length="0.109" k="284512.0"/>
   <Bond class1="HC" class2="C_2" length="0.109" k="284512.0"/>
   <Bond class1="HC" class2="C_3" length="0.109" k="284512.0"/>
-  <Bond class1="CT" class2="CZ" length="0.147" k="326352.0"/>
+  <Bond class1="CT" class2="CZ" length="0.1458" k="322168.0"/>
   <Bond class1="CA" class2="CZ" length="0.1451" k="334720.0"/>
   <Bond class1="CY" class2="CZ" length="0.1451" k="334720.0"/>
   <Bond class1="CZ" class2="NZ" length="0.1157" k="543920.0"/>
@@ -1077,7 +1077,7 @@
   <Bond class1="H3" class2="N2" length="0.101" k="363171.2"/>
   <Bond class1="H3" class2="N3" length="0.101" k="363171.2"/>
   <Bond class1="HO" class2="OH" length="0.0945" k="462750.4"/>
-  <Bond class1="HO" class2="OS" length="0.0945" k="462750.4"/>
+  <Bond class1="HO" class2="OG" length="0.0945" k="462750.4"/>
   <Bond class1="HS" class2="SH" length="0.1336" k="229283.2"/>
   <Bond class1="LP" class2="S" length="0.0679" k="502080.0"/>
   <Bond class1="LP" class2="SH" length="0.0679" k="502080.0"/>
@@ -1123,7 +1123,7 @@
   <Bond class1="C_2" class2="CW" length="0.149" k="334720.0"/>
   <Bond class1="C_3" class2="CW" length="0.149" k="334720.0"/>
   <Bond class1="O2" class2="S" length="0.153" k="400000.0"/>
-  <Bond class1="SI" class2="OS" length="0.165" k="251040.0"/>
+  <Bond class1="SI" class2="OG" length="0.165" k="251040.0"/>
   <Bond class1="SI" class2="OH" length="0.165" k="251040.0"/>
   <Bond class1="SI" class2="CT" length="0.185" k="167360.0"/>
  </HarmonicBondForce>
@@ -2058,18 +2058,23 @@
   <Angle class1="CA" class2="S" class3="CT" angle="1.81863308058" k="518.816"/>
   <Angle class1="OH" class2="C" class3="N" angle="2.01463355558" k="292.88"/>
   <Angle class1="O2" class2="S" class3="CT" angle="1.86750229963" k="400.0"/>
-  <Angle class1="SI" class2="OS" class3="SI" angle="2.530727" k="167.36"/>
+  <Angle class1="SI" class2="OG" class3="SI" angle="2.530727" k="167.36"/>
   <Angle class1="SI" class2="OH" class3="SI" angle="2.530727" k="167.36"/>
-  <Angle class1="OS" class2="SI" class3="OS" angle="1.919862" k="502.08"/>
-  <Angle class1="OH" class2="SI" class3="OS" angle="1.919862" k="502.08"/>
+  <Angle class1="OG" class2="SI" class3="OG" angle="1.919862" k="502.08"/>
+  <Angle class1="OH" class2="SI" class3="OG" angle="1.919862" k="502.08"/>
   <Angle class1="SI" class2="OH" class3="HO" angle="2.144800" k="198.96"/>
   <Angle class1="SI" class2="CT" class3="CT" angle="2.0944" k="254.97296"/>
   <Angle class1="SI" class2="CT" class3="HC" angle="1.932079" k="313.80"/>
   <Angle class1="OH" class2="SI" class3="CT" angle="1.7453" k="502.08"/>
   <Angle class1="OH" class2="SI" class3="OH" angle="1.919862" k="502.08"/>
-  <Angle class1="OS" class2="SI" class3="CT" angle="1.7453" k="502.08"/>
+  <Angle class1="OG" class2="SI" class3="CT" angle="1.7453" k="502.08"/>
+  <Angle class1="CY" class2="CT" class3="CT" angle="1.966986067" k="488.273"/>
  </HarmonicAngleForce>
  <RBTorsionForce>
+  <Proper type1="opls_965" type2="opls_961" type3="opls_136" type4="opls_136" c0="0.968596" c1="2.905788" c2="0.0" c3="-3.874384" c4="0.0" c5="0.0"/>
+  <Proper type1="opls_965" type2="opls_961" type3="opls_136" type4="opls_140" c0="0.60668" c1="1.82004" c2="0.0" c3="-2.42672" c4="0.0" c5="0.0"/>
+  <Proper type1="opls_961" type2="opls_136" type3="opls_136" type4="opls_136" c0="-0.987424" c1="0.08363" c2="-0.08368" c3="-0.401664" c4="1.389088" c5="0.0"/>
+  <Proper type1="opls_961" type2="opls_136" type3="opls_136" type4="opls_140" c0="0.278236" c1="0.834708" c2="0.0" c3="-1.112944" c4="0.0" c5="0.0"/>
   <Proper class1="Br" class2="C" class3="CB" class4="CT" c0="0.0" c1="0.0" c2="0.0" c3="0.0" c4="0.0" c5="0.0"/>
   <Proper class1="Br" class2="C" class3="CT" class4="HC" c0="0.75312" c1="2.25936" c2="0.0" c3="-3.01248" c4="0.0" c5="0.0"/>
   <Proper class1="Br" class2="CT" class3="CT" class4="Br" c0="-0.523" c1="0.523" c2="0.0" c3="0.0" c4="0.0" c5="0.0"/>
@@ -3116,11 +3121,39 @@
   <Proper class1="C3" class2="CT" class3="NT" class4="C_3" c0="1.78866" c1="3.49154" c2="0.53555" c3="-5.81576" c4="0.0" c5="0.0"/>
   <Proper class1="C3" class2="CT" class3="NT" class4="C3" c0="1.78866" c1="3.49154" c2="0.53555" c3="-5.81576" c4="0.0" c5="0.0"/>
   <Proper class1="O2" class2="S" class3="CT" class4="HC" c0="1.35352" c1="4.06057" c2="0.0" c3="-5.4141" c4="0.0" c5="0.0"/>
-  <Proper class1="" class2="SI" class3="OS" class4="" c0="0.0" c1="0.0" c2="0.0" c3="0.0" c4="0.0" c5="0.0"/>
-  <Proper class1="" class2="SI" class3="OH" class4="" c0="0.0" c1="0.0" c2="0.0" c3="0.0" c4="0.0" c5="0.0"/>
-  <Proper class1="" class2="SI" class3="CT" class4="" c0="0.0" c1="0.0" c2="0.0" c3="0.0" c4="0.0" c5="0.0"/>
-  <Proper class1="SI" class2="CT" class3="CT" class4="" c0="0.0" c1="0.0" c2="0.0" c3="0.0" c4="0.0" c5="0.0"/>
+  <Proper class1="SI" class2="" class3="" class4="" c0="0.0" c1="0.0" c2="0.0" c3="0.0" c4="0.0" c5="0.0"/>
+  <Proper class1="" class2="SI" class3="" class4="" c0="0.0" c1="0.0" c2="0.0" c3="0.0" c4="0.0" c5="0.0"/>
+  <Proper class1="CZ" class2="CT" class3="CT" class4="CT" c0="2.9288" c1="-1.4644" c2="0.2092" c3="-1.6736" c4="0.0" c5="0.0"/>
+  <Proper class1="CT" class2="CT" class3="CM" class4="HC" c0="0.0" c1="0.0" c2="0.0" c3="0.0" c4="0.0" c5="0.0"/>
+  <Proper class1="NO" class2="CT" class3="CT" class4="CT" c0="-4.117056" c1="3.22168" c2="0.895376" c3="0.0" c4="0.0" c5="0.0"/>
+  <Proper class1="CY" class2="CY" class3="CT" class4="CT" c0="2.9288" c1="-1.4644" c2="0.2092" c3="-1.6736" c4="0.0" c5="0.0"/>
+  <Proper class1="CY" class2="CT" class3="CT" class4="CT" c0="2.9288" c1="-1.4644" c2="0.2092" c3="-1.6736" c4="0.0" c5="0.0"/>
+  <Proper class1="HC" class2="CY" class3="CT" class4="CT" c0="0.6276" c1="1.8828" c2="0.0" c3="-2.5104" c4="0.0" c5="0.0"/>
+  <Proper class1="HC" class2="CY" class3="CT" class4="HC" c0="0.6276" c1="1.8828" c2="0.0" c3="-2.5104" c4="0.0" c5="0.0"/>
+  <Proper class1="HC" class2="CT" class3="CT" class4="CY" c0="0.6276" c1="1.8828" c2="0.0" c3="-2.5104" c4="0.0" c5="0.0"/>
+  <Proper class1="CW" class2="CT" class3="CT" class4="CT" c0="2.9288" c1="-1.4644" c2="0.2092" c3="-1.6736" c4="0.0" c5="0.0"/>
  </RBTorsionForce>
+ <PeriodicTorsionForce>
+  <Improper class1="C" class2="O" class3="" class4="" periodicity1="2" phase1="3.141592653589793" k1="43.93200"/>
+  <Improper class1="C_2" class2="O_2" class3="" class4="" periodicity1="2" phase1="3.141592653589793" k1="43.93200"/>
+  <Improper class1="C_3" class2="O_3" class3="" class4="" periodicity1="2" phase1="3.141592653589793" k1="43.93200"/>
+  <Improper class1="C" class2="O_3" class3="" class4="" periodicity1="2" phase1="3.141592653589793" k1="43.93200"/>
+  <Improper class1="NO" class2="ON" class3="NO" class4="" periodicity1="2" phase1="3.141592653589793" k1="43.93200"/>
+  <Improper class1="" class2="N2" class3="N2" class4="N2" periodicity1="2" phase1="3.141592653589793" k1="43.93200"/>
+  <Improper class1="N" class2="" class3="" class4="" periodicity1="2" phase1="3.141592653589793" k1="4.18400"/>
+  <Improper class1="NA" class2="" class3="" class4="" periodicity1="2" phase1="3.141592653589793" k1="4.18400"/>
+  <Improper class1="CM" class2="" class3="" class4="" periodicity1="2" phase1="3.141592653589793" k1="62.7600"/>
+  <Improper class1="CA" class2="" class3="" class4="" periodicity1="2" phase1="3.141592653589793" k1="4.60240"/>
+  <Improper class1="CB" class2="" class3="" class4="" periodicity1="2" phase1="3.141592653589793" k1="4.60240"/>
+  <Improper class1="CN" class2="" class3="" class4="" periodicity1="2" phase1="3.141592653589793" k1="4.60240"/>
+  <Improper class1="CV" class2="" class3="" class4="" periodicity1="2" phase1="3.141592653589793" k1="4.60240"/>
+  <Improper class1="CW" class2="" class3="" class4="" periodicity1="2" phase1="3.141592653589793" k1="4.60240"/>
+  <Improper class1="CR" class2="" class3="" class4="" periodicity1="2" phase1="3.141592653589793" k1="4.60240"/>
+  <Improper class1="CK" class2="" class3="" class4="" periodicity1="2" phase1="3.141592653589793" k1="4.60240"/>
+  <Improper class1="CQ" class2="" class3="" class4="" periodicity1="2" phase1="3.141592653589793" k1="4.60240"/>
+  <Improper class1="CS" class2="" class3="" class4="" periodicity1="2" phase1="3.141592653589793" k1="4.60240"/>
+  <Improper class1="C*" class2="" class3="" class4="" periodicity1="2" phase1="3.141592653589793" k1="4.60240"/>
+ </PeriodicTorsionForce>
  <NonbondedForce coulomb14scale="0.5" lj14scale="0.5">
   <Atom type="opls_001" charge="0.5" sigma="0.375" epsilon="0.43932"/>
   <Atom type="opls_002" charge="-0.5" sigma="0.296" epsilon="0.87864"/>
