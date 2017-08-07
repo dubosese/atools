@@ -1,12 +1,25 @@
 import os
 from pkg_resources import resource_filename
 
+import mbuild as mb
 import numpy as np
 
-import mbuild as mb
 
 class DualSurface(mb.Compound):
     """ A recipe for creating a system with two opposing surfaces.
+
+    Parameters
+    ----------
+    bottom : mb.Compound
+        The bottom surface (typically a monolayer-functionalized silica surface).
+    top : mb.Compound, optional, default=None
+        The top surface. If not specified, `bottom` is cloned, rotated, and shifted
+        to yield a system of two identical, opposing surfaces.
+    separation : float, optional, default=0.8
+        The separation (in nm) between the top and bottom surfaces.
+    shift : bool, optional, default=False
+        Option to shift the top surface so that it has an equivalent center of mass
+        in the XY plane to the bottom surface.
     """
 
     def __init__(self, bottom, top=None, separation=0.8, shift=False):
