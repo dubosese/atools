@@ -28,8 +28,8 @@ class DualSurface(mb.Compound):
                            bottom.pos[1] - top.pos[1],
                            0])
 
-        self.add(bottom)
-        self.add(top)
+        self.add(bottom, 'bottom')
+        self.add(top, 'top')
 
 if __name__ == "__main__":
     from atools.lib.chains import Alkylsilane
