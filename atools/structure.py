@@ -1,9 +1,9 @@
 from __future__ import division
 
-import numpy as np
-
 import mdtraj as md
 from mdtraj.geometry.order import _compute_director
+import numpy as np
+
 
 def calc_nematic_order(traj_filename, top_filename, output_filename,
                        n_chains, average=True):
@@ -11,6 +11,19 @@ def calc_nematic_order(traj_filename, top_filename, output_filename,
 
     Returns the average nematic order at each frame of a trajectory
     between the top and bottom monolayers in a dual monolayer system.
+
+    Parameters
+    ----------
+    traj_filename : str
+        Name of trajectory file
+    top_filename : str
+        Name of topology file
+    output_filename : str
+        Name of output file
+    n_chains : int
+        Number of monolayer chains per surface
+    average : bool, optional, default=True
+        Average nematic order values for the top and bottom monolayers
 
     Notes
     -----
