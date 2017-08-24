@@ -18,3 +18,20 @@ def save_pattern(filename, pattern, overwrite=False):
         lj_particle.translate(pos)
         lj_box.add(lj_particle)
     lj_box.save(filename, overwrite=overwrite)
+
+def read_ndx(filename):
+    """Loads a Gromacs .ndx file into a dictionary. """
+    ndx_dict = {}
+    vals = []
+    with open(filename, 'r') as ndx:
+        for line in ndx:
+            if '[' in line:
+                if vals:
+                    ndx_dict.update({group:vals})
+                    vals = []
+                group = line.strip()[2:-2]
+            else:
+                for atom_id in line.split():
+                    vals.append(int(atom_id))
+    ndx_dict.update({group:vals})
+    return ndx_dict
