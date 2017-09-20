@@ -4,6 +4,8 @@ import mdtraj as md
 from mdtraj.geometry.order import _compute_director
 import numpy as np
 
+from atools.fileio import read_ndx
+
 
 def calc_nematic_order(traj_filename, top_filename, output_filename,
                        n_chains, average=True):
@@ -67,7 +69,7 @@ def _tilt_angle(v1, v2):
     return abs(angle)
 
 def calc_avg_tilt_angle(traj_filename, top_filename, output_filename,
-                        n_chains):
+                        n_chains, average=True):
     """Calculate the average tilt angle of a monolayer
 
     Returns the average tilt angle at each frame of a trajectory,
@@ -117,15 +119,102 @@ def calc_avg_tilt_angle(traj_filename, top_filename, output_filename,
     top_tilts_by_frame = np.mean(chain_tilts_top, axis=1)
     top_err_by_frame = np.std(chain_tilts_top, axis=1)
 
-    time = np.array([traj[frame].time[0] for frame in range(traj.n_frames)])
-    bottom_filename = output_filename.split('.')[0] + '-bottom.' + \
-        output_filename.split('.')[1]
-    np.savetxt(bottom_filename, np.column_stack((time, bottom_tilts_by_frame,
-        bottom_err_by_frame)))
-    top_filename = output_filename.split('.')[0] + '-top.' + \
-        output_filename.split('.')[1]
-    np.savetxt(top_filename, np.column_stack((time, top_tilts_by_frame,
-        top_err_by_frame)))
+    if average:
+        tilt_mean = np.mean([bottom_tilts_by_frame, top_tilts_by_frame], axis=0)
+        np.savetxt(output_filename, np.column_stack((traj.time, tilt_mean)))
+    else:
+        bottom_filename = output_filename.split('.')[0] + '-bottom.' + \
+            output_filename.split('.')[1]
+        np.savetxt(bottom_filename, np.column_stack((traj.time, bottom_tilts_by_frame,
+            bottom_err_by_frame)))
+        top_filename = output_filename.split('.')[0] + '-top.' + \
+            output_filename.split('.')[1]
+        np.savetxt(top_filename, np.column_stack((traj.time, top_tilts_by_frame,
+            top_err_by_frame)))
+
+def count_hydrogen_bonds(traj_filename, top_filename, output_filename,
+                         mol2_filename, ndx_filename=None, top_group=None,
+                         bottom_group=None):
+    """Count the number of inter- or intra-monolayer hydrogen bonds
+
+    The number of inter- and intra-monolayer hydrogen bonds is determined for each
+    frame in a trajectory using the Wernet-Nilsson method implemented in MDTraj. By
+    default, atom indices in the first half of the system are considered to be part
+    of the bottom monolayer and those in the second half are part of the top monolayer.
+    This behavior can be overridden by providing names for `top_group` and
+    `bottom_group`, where these groups will be read from an .ndx file and only indices
+    in these groups are considered.
+
+    Parameters
+    ----------
+    traj_filename : str
+        Name of trajectory file
+    top_filename : str
+        Name of topology file
+    output_filename : str
+        Name of output file
+    mol2_filename : str
+        Name of mol2 file used to read bond information
+    ndx_filename : str, optional, default=None
+        Name of Gromacs .ndx file which specifies atom groups. Required if `top_group`
+        or `bottom_group` is not None.
+    top_group : str, optional, default=None
+        Only atom indices from this group (read from a .ndx file) will be considered
+        as part of the top monolayer.
+    bottom_group : str, optional, default=None
+        Only atom indices from this group (read from a .ndx file) will be considered
+        as part of the bottom monolayer.
+
+    """
+    top = md.load(top_filename).topology
+    top_atoms = [atom for atom in top.atoms]
+    half_atoms = int(len(top_atoms)/2)
+
+    if ndx_filename:
+        groups = read_ndx(ndx_filename)
+
+    if top_group:
+        top_monolayer = np.array(groups[top_group]) - 1
+    else:
+        top_monolayer = np.arange(half_atoms, 2*half_atoms)
+
+    if bottom_group:
+        bottom_monolayer = np.array(groups[bottom_group]) - 1
+    else:
+        bottom_monolayer = np.arange(half_atoms)
+    monolayers = np.hstack((bottom_monolayer, top_monolayer))
+
+    h_bonds_top = []
+    h_bonds_bottom = []
+    h_bonds_interface = []
+    time_traj = []
+    for traj_chunk in md.iterload(traj_filename, top=mol2_filename, chunk=10):
+        for i, atom in enumerate(traj_chunk.top.atoms):
+            atom.element = top_atoms[i].element
+
+        h_bonds_total = md.wernet_nilsson(traj_chunk)
+        for frame in h_bonds_total:
+            h_bonds_top_frame = [tuple(bond) for bond in frame
+                                 if all(atom_id in top_monolayer for atom_id in bond)]
+            h_bonds_bottom_frame = [tuple(bond) for bond in frame
+                                    if all(atom_id in bottom_monolayer
+                                    for atom_id in bond)]
+            h_bonds_interface_frame = [tuple(bond) for bond in frame
+                                       if(all(atom_id in monolayers for atom_id in bond)
+                                       and tuple(bond) not in h_bonds_top_frame
+                                       and tuple(bond) not in h_bonds_bottom_frame)]
+            h_bonds_top.append(len(h_bonds_top_frame))
+            h_bonds_bottom.append(len(h_bonds_bottom_frame))
+            h_bonds_interface.append(len(h_bonds_interface_frame))
+        time_traj.append(traj_chunk.time)
+
+    time_traj = np.concatenate(time_traj).ravel()
+    h_bonds_top = np.asarray(h_bonds_top)
+    h_bonds_bottom = np.asarray(h_bonds_bottom)
+    h_bonds_interface = np.asarray(h_bonds_interface)
+    np.savetxt(output_filename,
+        np.column_stack((time_traj, h_bonds_interface, h_bonds_top, h_bonds_bottom)),
+        header='Time\tInter-\tIntra-top\tIntra-bottom')
 
 def identify_rigid_groups(monolayer, terminal_group=None, freeze_thickness=5):
     bounding_box = monolayer.boundingbox
