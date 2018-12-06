@@ -4,19 +4,20 @@ import os
 import mbuild as mb
 
 from atools.lib import surface_cache
+from atools.recipes.silica_interface_carve import SilicaInterfaceCarve
 
 
-class SilicaInterface(mb.SilicaInterface):
+class SilicaInterface(SilicaInterfaceCarve):
     """Recipe for generating an amorphous silica interface.
 
-    This is essentially a wrapper around the `SilicaInterface`recipe included with
+    This is essentially a wrapper around the `SilicaInterfaceCarve` recipe, which is an extension of that included with
     the mBuild package (https://github.com/mosdef-hub/mbuild). Please refer to the
     mBuild documentation for further details into how the interface is carved.
 
     A surface cache located in `atools/lib` is first checked to see if a silica
     interface has already been generated with the specified `tile_x`, `tile_y`,
     `thickness`, and `seed` parameters. If so, the surface is read from a PDB file,
-    otherwise, the mBuild `SilicaInterface` recipe is called and the newly generated
+    otherwise, the `SilicaInterfaceCarve` recipe is called and the newly generated
     surface is added to the surface cache.
 
     Parameters
@@ -72,5 +73,4 @@ class SilicaInterface(mb.SilicaInterface):
             self.add(port, "port_{}".format(len(self.referenced_ports())))
 
 if __name__ == "__main__":
-    for seed in [1,2,3,4,5]:
-        silica_interface = SilicaInterface(thickness=1.2, seed=seed)
+    silica_interface = SilicaInterface(thickness=1.2, seed=10)
