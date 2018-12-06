@@ -72,4 +72,5 @@ class SilicaInterface(mb.SilicaInterface):
             self.add(port, "port_{}".format(len(self.referenced_ports())))
 
 if __name__ == "__main__":
-    silica_interface = SilicaInterface()
+    for seed in [1,2,3,4,5]:
+        silica_interface = SilicaInterface(thickness=1.2, seed=seed)
