@@ -9,9 +9,14 @@ class Phenol(mb.Compound):
 
         mb.load('phenol.pdb', compound=self, relative_to_module=self.__module__)
         self.translate(-self[0].pos)
+        # pop off bottom hydrogen on benzene ring
+        direction = self[7].xyz - self[0].xyz
+        self.remove(self[7])
 
-        self.add(mb.Port(anchor=self[0], orientation=[0, -1, 0], separation=0.07),
-            'down')
+        # add port anchored to newly hydrogen-less carbon in benzene ring
+        self.add(
+                mb.Port(anchor=self[0], orientation=direction.tolist()[0], separation=0.07), 'down')
+
 
 if __name__ == '__main__':
     phenol = Phenol()

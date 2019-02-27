@@ -19,8 +19,8 @@ from .perfluoromethyl import Perfluoromethyl
 from .phenyl import Phenyl
 from .pyrrole import Pyrrole
 from .triazole import Triazole
-from .difluoromethyl import DifluoroMethyl
-from .methylbenzene import MethylBenzene
+from .difluoromethyl import Difluoromethyl
 from .phenol import Phenol
 from .toluene import Toluene
-from benzoicacid import BenzoicAcid
+from .benzoicacid import Benzoicacid
+from .isopropylbenzene import Isopropylbenzene
