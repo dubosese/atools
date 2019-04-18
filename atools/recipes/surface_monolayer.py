@@ -25,7 +25,7 @@ class SurfaceMonolayer(mb.Compound):
             pass
         else:
             pattern = mb.Random2DPattern(n_chains, seed=seed)
-        
+
         if chains and n_chains > 0:
             monolayer = Monolayer(surface=surface, chains=chains, pattern=pattern,
                                   fractions=fractions, backfill=backfill, **kwargs)
@@ -33,6 +33,7 @@ class SurfaceMonolayer(mb.Compound):
             monolayer = Monolayer(surface=surface, chains=backfill, guest_port_name='up', **kwargs)
 
         self.add(monolayer)
+
 
 if __name__ == "__main__":
     from atools.lib.chains import Alkylsilane
@@ -51,24 +52,24 @@ if __name__ == "__main__":
         chain = Alkylsilane(chain_length=6, terminal_group=terminal_group)
 
         planar_surface = SilicaInterface(seed=seed)
-        planar_monolayer = SurfaceMonolayer(surface=planar_surface, 
+        planar_monolayer = SurfaceMonolayer(surface=planar_surface,
             chains=chain, n_chains=100, seed=seed, backfill=hydrogen)
         forcefield_dir = resource_filename('atools', 'forcefields')
         planar_monolayer.save('planar-{}.gro'.format(terminal_group), overwrite=True)
-        planar_monolayer.save('planar-{}.top'.format(terminal_group), 
+        planar_monolayer.save('planar-{}.top'.format(terminal_group),
             forcefield_files=os.path.join(forcefield_dir, 'oplsaa-silica.xml'),
             overwrite=True)
 
     '''
     tip = SilicaTip(tip_radius=2.0, seed=seed)
-    tip_monolayer = SurfaceMonolayer(surface=tip, chains=[chain_a, chain_b], 
+    tip_monolayer = SurfaceMonolayer(surface=tip, chains=[chain_a, chain_b],
         n_chains=50, seed=2, fractions=fractions, backfill=hydrogen)
     tip_monolayer.save('tip.mol2', overwrite=True)
     '''
 
     '''
     asperity = SilicaAsperity(tile_x=3, tile_y=3, asperity_radius=2.0, seed=seed)
-    asperity_monolayer = SurfaceMonolayer(surface=asperity, 
+    asperity_monolayer = SurfaceMonolayer(surface=asperity,
         chains=[chain_a, chain_b], n_chains=100, seed=seed, fractions=fractions,
         backfill=hydrogen)
     asperity_monolayer.save('asperity.mol2', overwrite=True)
