@@ -1,10 +1,10 @@
 import mbuild as mb
 
 
-class CH3(mb.Compound):
+class Ch3(mb.Compound):
     """A methyl group. """
     def __init__(self):
-        super(CH3, self).__init__()
+        super(Ch3, self).__init__()
 
         mb.load('ch3.pdb', compound=self, relative_to_module=self.__module__)
         self.translate(-self[0].pos)  # Move carbon to origin.
@@ -13,6 +13,6 @@ class CH3(mb.Compound):
         self['down'].translate([0, -0.07, 0])
 
 if __name__ == '__main__':
-    m = CH3()
+    m = Ch3()
     m.visualize(show_ports=True)
 

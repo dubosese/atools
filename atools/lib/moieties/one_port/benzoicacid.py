@@ -13,11 +13,11 @@ class Benzoicacid(mb.Compound):
         # pop off bottom hydrogen on benzene ring
         direction = self[12].xyz - self[6].xyz
         self.remove(self[12])
+        self.remove(self['port[0]'])
+        self.remove(self['port[1]'])
 
         # add port anchored to newly hydrogen-less carbon in benzene ring
-        self.add(
-                mb.Port(anchor=self[6], orientation=direction.tolist()[0], separation=0.07)
-                , 'down')
+        self.add(mb.Port(anchor=self[6], orientation=direction.tolist()[0], separation=0.07), 'down')
 
 
 if __name__ == '__main__':

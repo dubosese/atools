@@ -1,1 +1,1 @@
-from atools.lib.chains.alkylsilane import Alkylsilane
+from .alkylsilane import Alkylsilane

@@ -12,6 +12,8 @@ class Phenol(mb.Compound):
         # pop off bottom hydrogen on benzene ring
         direction = self[7].xyz - self[0].xyz
         self.remove(self[7])
+        self.remove(self['port[0]'])
+        self.remove(self['port[1]'])
 
         # add port anchored to newly hydrogen-less carbon in benzene ring
         self.add(

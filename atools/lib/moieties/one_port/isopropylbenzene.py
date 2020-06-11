@@ -12,6 +12,8 @@ class Isopropylbenzene(mb.Compound):
         # pop off bottom hydrogen on benzene ring
         direction = self[18].xyz - self[6].xyz
         self.remove(self[18])
+        self.remove(self['port[0]'])
+        self.remove(self['port[1]'])
 
         # add port anchored to newly hydrogen-less carbon in benzene ring
         self.add(

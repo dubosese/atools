@@ -2,7 +2,7 @@ from warnings import warn
 
 import mbuild as mb
 from mbuild.lib.moieties import CH2
-from atools.lib.moieties.one_port import CH3
+from atools.lib.moieties.one_port import Ch3
 
 
 class Alkane(mb.Compound):
@@ -27,14 +27,14 @@ class Alkane(mb.Compound):
         if n > 1:
             if cap_front:
                 n -= 1
-                ch3_front = CH3()
+                ch3_front = Ch3()
                 self.add(ch3_front, 'methyl_front')
             if cap_end:
                 n -= 1
                 ch3_end = clone(ch3_front)
                 self.add(ch3_end, 'methyl_end')
             try:
-                chain = mb.Polymer(CH2(), n=n, port_labels=('up', 'down'))
+                chain = mb.recipes.Polymer(CH2(), n=n, port_labels=('up', 'down'))
                 self.add(chain, 'chain')
                 if cap_end:
                     mb.force_overlap(self['methyl_end'], self['methyl_end']['down'],
@@ -51,7 +51,7 @@ class Alkane(mb.Compound):
                                  self['methyl_front']['down'])
         else:
             if cap_end or cap_front:
-                ch3 = CH3()
+                ch3 = Ch3()
                 self.add(ch3, 'methyl')
                 self.add(ch3['down'], 'down', containment=False)
             else:

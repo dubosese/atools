@@ -74,7 +74,7 @@ class SilicaInterfaceCarve(mb.Compound):
         """
         O_buffer = self._O_buffer
         tile_z = int(math.ceil((thickness + 2*O_buffer) / bulk_silica.periodicity[2]))
-        bulk = mb.TiledCompound(bulk_silica, n_tiles=(tile_x, tile_y, tile_z))
+        bulk = mb.recipes.TiledCompound(bulk_silica, n_tiles=(tile_x, tile_y, tile_z))
 
         interface = mb.Compound(periodicity=(bulk.periodicity[0],
                                              bulk.periodicity[1],
