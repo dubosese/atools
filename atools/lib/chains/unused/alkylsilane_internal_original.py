@@ -9,17 +9,13 @@ from atools.lib.chains.alkane import Alkane
 
 class Alkylsilane(mb.Compound):
     """A functionalized alkylsilane chain. """
-    def __init__(self, chain_length, internal_group, locations, terminal_group):
+    def __init__(self, chain_length, internal_group, locations):
         super(Alkylsilane, self).__init__()
 
         hmodule = __import__('atools.lib.moieties.multiple_ports.'+internal_group)
         hclass_ = getattr(hmodule.lib.moieties.multiple_ports, internal_group.title())
         hgroup = hclass_()
 
-        module = __import__('atools.lib.moieties.one_port.'+terminal_group)
-        class_ = getattr(module.lib.moieties.one_port, terminal_group.title())
-        tgroup = class_()
-        
         # Determine alkane segments
         if isinstance(locations, int):
             locations = [locations]
@@ -71,7 +67,7 @@ class Alkylsilane(mb.Compound):
 
         last_length = chain_length - locations[-1] - 1 - c_remove
         if last_length:
-            last_segment = Alkane(last_length, cap_front=False, cap_end=False)
+            last_segment = Alkane(last_length, cap_front=True, cap_end=False)
             self.add(last_segment, 'top_chain')
             mb.force_overlap(self['top_chain'], self['top_chain']['down'],
                              self['hgroup']['up'])
@@ -81,14 +77,7 @@ class Alkylsilane(mb.Compound):
             mb.force_overlap(self['H-cap'], self['H-cap']['up'],
                              self['hgroup']['up'])
 
-            
-        self.add(tgroup, 'terminal_group')
-        mb.force_overlap(self['terminal_group'], 
-                         self['terminal_group']['down'],
-                         self['top_chain']['up'])
-                    
 if __name__ == "__main__":
     chain = Alkylsilane(chain_length=18, internal_group='phenyl',
-                        locations=17, terminal_group='phenyl')
+                        locations=17)
     chain.save('chain-hbond.mol2', overwrite=True)
-
