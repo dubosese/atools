@@ -16,13 +16,6 @@ atools/lib/chains/__init__.py
 atools/lib/chains/alkane.py
 atools/lib/chains/alkylsilane.py
 atools/lib/chains/alkylsilane_internal.py
-atools/lib/chains/alkylsilane_internal_plus.py
-atools/lib/chains/alkylsilane_internal_plus_old.py
-atools/lib/chains/pegsilane.py
-atools/lib/chains/compound_with_ports/__init__.py
-atools/lib/chains/compound_with_ports/ch2.py
-atools/lib/chains/compound_with_ports/h.py
-atools/lib/chains/compound_with_ports/o.py
 atools/lib/chains/united_atom/__init__.py
 atools/lib/chains/united_atom/linear_alkane.py
 atools/lib/moieties/__init__.py

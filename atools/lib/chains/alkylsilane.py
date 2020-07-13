@@ -1,5 +1,5 @@
 import mbuild as mb
-from mbuild.examples.alkane.alkane import Alkane
+from mbuild.examples import Alkane
 from mbuild.lib.moieties import Silane
 
 import atools
