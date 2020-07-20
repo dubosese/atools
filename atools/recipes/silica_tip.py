@@ -7,7 +7,7 @@ import os
 import random
 
 import mbuild as mb
-from mbuild.lib.bulk_materials import AmorphousSilica
+from mbuild.lib.bulk_materials import AmorphousSilicaBulk
 
 from atools.lib import surface_cache
 
